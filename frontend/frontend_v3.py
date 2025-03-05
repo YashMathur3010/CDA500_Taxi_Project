@@ -139,7 +139,7 @@ def main():
     N_STEPS = 5
 
     with st.spinner(text="Loading zone lookup"):
-        zone_lookup = load_zone_lookup(DATA_DIR / "taxi_zone_lookup.csv")
+        zone_lookup = load_zone_lookup("taxi_zone_lookup.csv")
         st.sidebar.write("Zone lookup loaded")
         progress_bar.progress(1 / N_STEPS)
 
