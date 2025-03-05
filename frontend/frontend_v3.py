@@ -1,6 +1,10 @@
 import os
 import sys
 from pathlib import Path
+
+parent_dir = str(Path(__file__).parent.parent)
+sys.path.append(parent_dir)
+
 import zipfile
 import folium
 import geopandas as gpd
@@ -10,6 +14,7 @@ import requests
 import streamlit as st
 from branca.colormap import LinearColormap
 from streamlit_folium import st_folium
+
 from src.config import DATA_DIR
 from src.inference import fetch_next_hour_predictions, load_batch_of_features_from_store
 from src.plot_utils import plot_prediction
