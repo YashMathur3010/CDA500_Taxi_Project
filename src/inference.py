@@ -54,7 +54,7 @@ def load_batch_of_features_from_store(
     ts_data.sort_values(by=["pickup_location_id", "pickup_hour"], inplace=True)
 
     features = transform_ts_data_info_features(
-        ts_data, window_size=24 * 28, step_size=23
+        ts_data, window_size=24 * 10, step_size=23
     )
 
     return features
