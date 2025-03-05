@@ -471,7 +471,7 @@ def fetch_batch_raw_data(
         raise ValueError("'from_date' must be earlier than 'to_date'.")
 
     # Shift dates back by 52 weeks (1 year)
-    historical_from_date = from_date - timedelta(weeks=52).replace()
+    historical_from_date = from_date - timedelta(weeks=52)
     historical_to_date = to_date - timedelta(weeks=52)
 
     # Load and filter data for the historical period
