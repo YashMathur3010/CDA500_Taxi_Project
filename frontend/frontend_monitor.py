@@ -18,7 +18,7 @@ st.sidebar.header("Settings")
 past_hours = st.sidebar.slider(
     "Number of Past Hours to Plot",
     min_value=12,  # Minimum allowed value
-    max_value=24 * 28,  # (Optional) Maximum allowed value
+    max_value=24 * 10,  # (Optional) Maximum allowed value
     value=12,  # Initial/default value
     step=1,  # Step size for increment/decrement
 )
