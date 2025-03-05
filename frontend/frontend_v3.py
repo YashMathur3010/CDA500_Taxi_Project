@@ -25,7 +25,14 @@ if "map_created" not in st.session_state:
     st.session_state.map_created = False
 
 def load_zone_lookup(csv_path):
-    return pd.read_csv(csv_path).set_index('LocationID')['Zone'].to_dict()
+    try:
+        return pd.read_csv(csv_path).set_index('LocationID')['Zone'].to_dict()
+    except FileNotFoundError:
+        st.error(f"Error: The file {csv_path} was not found.")
+        return {}  # Return an empty dictionary to avoid further errors
+    except Exception as e:
+        st.error(f"Error reading CSV file: {e}")
+        return {}
 
 def visualize_predicted_demand(shapefile_path, predicted_demand):
     gdf = gpd.read_file(shapefile_path).to_crs("epsg:4326")
@@ -138,10 +145,17 @@ def main():
     progress_bar = st.sidebar.progress(0)
     N_STEPS = 5
 
+    # Load zone lookup
     with st.spinner(text="Loading zone lookup"):
-        zone_lookup = load_zone_lookup("taxi_zone_lookup.csv")
-        st.sidebar.write("Zone lookup loaded")
-        progress_bar.progress(1 / N_STEPS)
+        # Check if the file exists in the same directory as the script
+        script_dir = Path(__file__).parent
+        csv_path = script_dir / "taxi_zone_lookup.csv"
+        zone_lookup = load_zone_lookup(csv_path)
+        if zone_lookup:  # Only proceed if the lookup was loaded successfully
+            st.sidebar.write("Zone lookup loaded")
+            progress_bar.progress(1 / N_STEPS)
+        else:
+            st.stop()  # Stop the app if the lookup fails
 
     with st.spinner(text="Download shape file for taxi zones"):
         geo_df = load_shape_data_file(DATA_DIR)
@@ -175,6 +189,7 @@ def main():
         with col3:
             st.metric("Minimum Rides", f"{predictions['predicted_demand'].min():.0f}")
 
+        # Add Zone Name to predictions DataFrame
         predictions['zone_name'] = predictions['pickup_location_id'].map(zone_lookup)
 
         st.subheader("Top 10 Predicted Demand Locations")
