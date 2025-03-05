@@ -1,5 +1,8 @@
+import os
 import sys
 from pathlib import Path
+
+os.environ['SHAPE_RESTORE_SHX'] = 'YES'
 
 parent_dir = str(Path(__file__).parent.parent)
 sys.path.append(parent_dir)

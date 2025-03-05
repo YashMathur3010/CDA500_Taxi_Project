@@ -65,7 +65,7 @@ def load_model_from_registry(version=None):
 
     import joblib
 
-    from src.pipeline_utils import (  # Import custom classes/functions
+    from pipeline_utils import (  # Import custom classes/functions
         TemporalFeatureEngineer,
         average_rides_last_4_weeks,
     )
